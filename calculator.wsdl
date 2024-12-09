@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://localhost/soap-service/calculator"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://localhost/soap-service/calculator">
+    <types>
+        <xsd:schema targetNamespace="http://localhost/soap-service/calculator">
+
+            <!-- Add request -->
+            <xsd:element name="AddRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="num1" type="xsd:float"/>
+                        <xsd:element name="num2" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- Add response -->
+            <xsd:element name="AddResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="result" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- Multiple request -->
+            <xsd:element name="multipleRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="num1" type="xsd:float"/>
+                        <xsd:element name="num2" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- Multiple response -->
+            <xsd:element name="multipleResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="result" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </types>
+
+    <!-- Add messages -->
+    <message name="AddRequest">
+        <part name="parameters" element="tns:AddRequest"/>
+    </message>
+    <message name="AddResponse">
+        <part name="parameters" element="tns:AddResponse"/>
+    </message>
+
+    <!-- Multiple messages -->
+    <message name="multipleRequest">
+        <part name="parameters" element="tns:multipleRequest"/>
+    </message>
+    <message name="multipleResponse">
+        <part name="parameters" element="tns:multipleResponse"/>
+    </message>
+
+    <!-- Single portType -->
+    <portType name="CalculatorPortType">
+        <operation name="Add">
+            <input message="tns:AddRequest"/>
+            <output message="tns:AddResponse"/>
+        </operation>
+        <operation name="multiple">
+            <input message="tns:multipleRequest"/>
+            <output message="tns:multipleResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Binding -->
+    <binding name="CalculatorBinding" type="tns:CalculatorPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="Add">
+            <soap:operation soapAction="http://localhost/soap-service/calculator#Add"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        <operation name="multiple">
+            <soap:operation soapAction="http://localhost/soap-service/calculator#Multiple"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Service -->
+    <service name="CalculatorService">
+        <documentation>Simple Calculator Service</documentation>
+        <port name="CalculatorPort" binding="tns:CalculatorBinding">
+            <soap:address location="http://localhost/soap-service/server.php"/>
+        </port>
+    </service>
+</definitions>
