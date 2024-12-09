@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cal="http://localhost/soap-service/calculator">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cal:AddRequest>
+         <num1>2</num1>
+         <num2>10</num2>
+      </cal:AddRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
